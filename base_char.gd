@@ -30,17 +30,25 @@ func walk(dir):
 	move_dir +=dir
 	if (dir.x < 0.0):
 		get_node("face").set_flip_h(true)
+		get_node("body_sprite").set_flip_h(true)
 	elif (dir.x > 0.0):
 		get_node("face").set_flip_h(false)
+		get_node("body_sprite").set_flip_h(false)
 
 
 func movement(delta):
+	if (abs(move_dir.x) < 1.0):
+		vel *= 1.0-delta*4
 	if (sign(vel.x) == sign(move_dir.x)):
 		vel.x += delta*move_dir.x
 	else:
 		vel.x += delta*move_dir.x*3.0
 	if (abs(vel.x) > MAX_VEL):
 		vel.x = sign(vel.x)*MAX_VEL
+	if (abs(vel.x) > 6.0 and (get_node("body_sprite/AnimationPlayer").get_current_animation() != "run" and get_node("body_sprite/AnimationPlayer").is_active()) ):
+		get_node("body_sprite/AnimationPlayer").play("run")
+	elif (abs(vel.x) <= 6.0 and (get_node("body_sprite/AnimationPlayer").get_current_animation() != "stand" and get_node("body_sprite/AnimationPlayer").is_active())):
+		get_node("body_sprite/AnimationPlayer").play("stand")
 	
 	#jump
 	if ( get_node("cast").is_colliding() and get_node("cast").get_collision_normal().y < -0.5 and move_dir.y < 0.0 ):

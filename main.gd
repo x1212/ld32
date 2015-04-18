@@ -59,4 +59,6 @@ func _process(delta):
 			return
 	else:
 		get_node("no_scroll/loose").hide()
+	var material = get_node("no_scroll/TextureFrame").get_material()
+	material.set_shader_param("Scalar",npcs.people/(npcs.happy_people+1) * 3)
 

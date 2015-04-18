@@ -10,6 +10,7 @@ var target
 func _ready():
 	# Initialization here
 	set_process(true)
+	set_fixed_process(true)
 	pass
 
 func _process(delta):
@@ -19,17 +20,18 @@ func _process(delta):
 			var dir = pos
 			dir.x = clamp(pos.x - get_pos().x,-MAX_VEL,MAX_VEL)
 			dir.y = clamp(pos.y - get_pos().y,-MAX_VEL*2,0.0)
-			walk( dir )
+			walk( dir*Vector2(1.0,2.0) )
 			release_mood()
 		elif ( target.mood != HAPPY and mood == HAPPY):
 			var pos = target.get_pos()
 			var dir = pos
 			dir.x = clamp(pos.x - get_pos().x,-MAX_VEL,MAX_VEL)
 			dir.y = clamp(pos.y - get_pos().y,-MAX_VEL*2,0.0)
-			walk( dir )
+			walk( dir*Vector2(1.0,2.0) )
 			release_mood()
 		else:
 			target = null
+	#._process(delta)
 
 
 func _on_vision_body_enter( body ):
