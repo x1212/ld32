@@ -48,7 +48,7 @@ func switch_level( num ):
 	level = levels[num].instance()
 	level.set_name("Node2D")
 	add_child(level)
-	move_child(level,0)
+	move_child(level,1)
 	current_level = num
 	#print( "free old level" )
 	#level.queue_free()
