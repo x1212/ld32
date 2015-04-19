@@ -9,6 +9,10 @@ var current_level = 0
 const evil_level = preload("res://evil_level.scn")
 const level0 = preload("res://menu.scn")
 const level1 = preload("res://level1.scn")
+const level2 = preload("res://level2.scn")
+const level3 = preload("res://level3.scn")
+const level4 = preload("res://level4.scn")
+const win = preload("res://win.scn")
 
 func _ready():
 	# Initialization here
@@ -16,16 +20,21 @@ func _ready():
 	pass
 
 func switch_level( num ):
-	if ( num == -1 ):
+	if ( num < 0 ):
 		get_tree().quit()
 		return
-	if ( num == 0 and current_level == 0 ):
+	if ( num == 0 and (current_level == 0 or current_level == 5) ):
 		num =  -1
+	if (num > 5):
+		num = 1
 	var levels = {
 		-1:evil_level,
 		0:level0,
 		1:level1,
-		2:level1
+		2:level2,
+		3:level3,
+		4:level4,
+		5:win
 	}
 	if ( levels[num] == null ):
 		print("level not found")
