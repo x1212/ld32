@@ -33,13 +33,14 @@ func _ready():
 	pass
 
 func walk(dir):
-	move_dir +=dir
+	move_dir +=dir*Vector2(1.0,1.5)
 	if (dir.x < 0.0):
 		get_node("face").set_flip_h(true)
 		get_node("body_sprite").set_flip_h(true)
 	elif (dir.x > 0.0):
 		get_node("face").set_flip_h(false)
 		get_node("body_sprite").set_flip_h(false)
+
 
 
 func movement(delta):
