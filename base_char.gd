@@ -9,7 +9,7 @@ var move_dir = Vector2(0.0,0.0)
 var vel = Vector2(0.0,0.0)
 var MAX_VEL = 126.0
 var GRAV = 256.0
-var happy = 0.0
+export var happy = 0.0
 
 const HAPPY = 2
 const NEUTRAL = 1
@@ -23,6 +23,12 @@ var cooldown = 0.0
 
 func _ready():
 	# Initialization here
+	if ( happy >= 20.0  and happy < 50.0 ):
+		mood = NEUTRAL
+	elif ( happy < 20.0 ):
+		mood = UNHAPPY
+	else:
+		mood = HAPPY
 	set_fixed_process( true )
 	pass
 
@@ -38,7 +44,7 @@ func walk(dir):
 
 func movement(delta):
 	if (abs(move_dir.x) < 1.0):
-		vel *= 1.0-delta*4
+		vel.x *= 1.0-delta*4
 	if (sign(vel.x) == sign(move_dir.x)):
 		vel.x += delta*move_dir.x
 	else:
@@ -51,15 +57,18 @@ func movement(delta):
 		get_node("body_sprite/AnimationPlayer").play("stand")
 	
 	#jump
-	if ( get_node("cast").is_colliding() and get_node("cast").get_collision_normal().y < -0.5 and move_dir.y < 0.0 ):
+	#if ( get_node("cast").is_colliding() and get_node("cast").get_collision_normal().y < -0.5 and move_dir.y < 0.0 ):
+	if ( get_node("cast").is_colliding() and is_colliding() and get_node("cast").get_collision_normal().y < -0.5 and move_dir.y < 0.0 ):
 		vel.y = move_dir.y
-	elif ( get_node("cast").is_colliding() and get_node("cast").get_collision_normal().y < -0.5):
+	#elif ( get_node("cast").is_colliding() and get_node("cast").get_collision_normal().y < -0.5):
+	elif ( get_node("cast").is_colliding() and is_colliding() and get_node("cast").get_collision_normal().y < -0.5):
 		vel.y = 0.0
+	elif ( is_colliding() ):
+		vel = get_collision_normal().slide(vel)
 	else:
 		vel.y += delta*GRAV
 	
-	if ( is_colliding() ):
-		vel = get_collision_normal().slide(vel)
+	
 	move( delta*vel )
 	move_dir = Vector2(0.0,0.0)
 	pass
